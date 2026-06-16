@@ -115,6 +115,6 @@ def process_flat_frames_to_csv_model(test_dir, output_file="video_results.csv", 
 
 if __name__ == "__main__":
     # Target directory path containing 'real' and 'deepfake' subfolders
-    TEST_DIR_PATH = "datasets/frames/FakeParts/test"
+    TEST_DIR_PATH = "FakeParts/test"
     
     process_flat_frames_to_csv_model(TEST_DIR_PATH)
