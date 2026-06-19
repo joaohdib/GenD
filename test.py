@@ -2,6 +2,7 @@ import os
 import csv
 import logging
 import math
+import argparse
 from collections import defaultdict
 
 import torch
@@ -145,13 +146,34 @@ def process_flat_frames_to_csv_model(test_dir, output_file="video_results.csv", 
     logger.info("Execution finished. Summary report saved to: %s", output_file)
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Process test frames from real/deepfake folders and export video predictions to CSV."
+    )
+    parser.add_argument(
+        "test_dir_path",
+        help="Path to the test directory containing 'real' and 'deepfake' subfolders.",
+    )
+    parser.add_argument(
+        "--output-file",
+        default="video_results.csv",
+        help="CSV output file path. Default: video_results.csv",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=32,
+        help="Number of frames processed per batch. Default: 32",
+    )
+    args = parser.parse_args()
+
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s | %(levelname)s | %(message)s",
         datefmt="%H:%M:%S",
     )
 
-    # Target directory path containing 'real' and 'deepfake' subfolders
-    TEST_DIR_PATH = "FakeParts/test"
-    
-    process_flat_frames_to_csv_model(TEST_DIR_PATH)
+    process_flat_frames_to_csv_model(
+        args.test_dir_path,
+        output_file=args.output_file,
+        batch_size=args.batch_size,
+    )
